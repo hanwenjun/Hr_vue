@@ -24,7 +24,7 @@
       label="操作"
       width="100">
       <template slot-scope="scope">
-        <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
+        <el-button @click="update(scope.row)" type="text" size="small">查看</el-button>
         <el-button type="text" size="small">编辑</el-button>
       </template>
     </el-table-column>
@@ -42,8 +42,13 @@
 <script>
   export default {
     methods: {
-      handleClick(row) {
-        console.log(row);
+      update(row) {
+        this.$router.push({
+          path: '/deptupdate',
+          query: {
+            deptno: row.deptno
+          }
+        })
       },
       page:function(currentPage){
         this.$http.get("http://localhost:8090/dept/findAll/"+(currentPage-1)+"/5").then(resp=>{

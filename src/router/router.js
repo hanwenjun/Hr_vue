@@ -7,6 +7,7 @@ import App from '../App'
 import deptManager from '../components/deptManager'
 import addDept from '../components/addDept'
 import Index from '../components/index.vue'
+import deptupdate from '../components/deptUpdate.vue'
 
 Vue.use(Router)
 
@@ -27,6 +28,10 @@ routes: [
                     path: '/addDept',
                     name: '添加部门',
                     component: addDept
+                },
+                {
+                    path: '/deptupdate',
+                    component: deptupdate
                 }
             ]
         }

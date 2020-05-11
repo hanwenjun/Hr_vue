@@ -1,5 +1,9 @@
 <template>
   <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+
+  <el-form-item label="部门ID" prop="deptno">
+    <el-input v-model="ruleForm.deptno" disabled="true"></el-input>
+  </el-form-item>
   <el-form-item label="部门名称" prop="deptname">
     <el-input v-model="ruleForm.deptname"></el-input>
   </el-form-item>
@@ -9,7 +13,7 @@
  
 
   <el-form-item>
-    <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
+    <el-button type="primary" @click="submitForm('ruleForm')">修改</el-button>
     <el-button @click="resetForm('ruleForm')">重置</el-button>
   </el-form-item>
 </el-form>
@@ -19,6 +23,7 @@
     data() {
       return {
         ruleForm: {
+          deptno: '',
           deptname: '',
           loc: ''
         },
@@ -38,7 +43,7 @@
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            this.$http.post("http://localhost:8090/dept/saveDept",this.ruleForm).then(resp=>{
+            this.$http.put("http://localhost:8090/dept/update",this.ruleForm).then(resp=>{
               if(resp.data =="success"){
                 this.$alert('保存成功', '消息提示', {
                             confirmButtonText: '确定',
@@ -50,7 +55,6 @@
                 alert("保存失败");
               }
             })
-          } else {
             console.log('error submit!!');
             return false;
           }
@@ -58,7 +62,12 @@
       },
       resetForm(formName) {
         this.$refs[formName].resetFields();
+      },
+    },
+     created(){
+          this.$http.get("http://localhost:8090/dept/findById/"+this.$route.query.deptno).then(resp=>{
+              this.ruleForm = resp.data;
+          });
       }
-    }
   }
 </script>
